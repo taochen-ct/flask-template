@@ -3,17 +3,16 @@
 @Modify Time :2023/3/16 22:17    
 @Author      :tao.chen 
 """
-# flask Marshmallow 序列化/反序列化的
 from abc import ABC
 
 
 class Serializer(ABC):
     """
-    序列化类
-    @params instance 数据库
-    @params data 前端请求
-    @many  单条/多条
+    @:param instance
+    @:param data
+    @:param many
     """
+
     model = None
     fields = None
     execlude = None
@@ -23,8 +22,7 @@ class Serializer(ABC):
         self.inition_data = data
         self.many = many
 
-        assert any([self.fields is None, not self.execlude]), \
-            f"repeated fields and exclude"
+        assert any([self.fields is None, not self.execlude]), f"repeated fields and exclude"
 
         if self.fields == "__all__":
             self.fields = self.model.__fields__
@@ -35,10 +33,7 @@ class Serializer(ABC):
     def handle(self, instance):
         """转换json"""
 
-        return {
-            field: getattr(instance, field)
-            for field in self.fields
-        }
+        return {field: getattr(instance, field) for field in self.fields}
 
     @property
     def data(self):
@@ -54,10 +49,7 @@ class Serializer(ABC):
 
         # 判断instance是不是实例列表 many参数
         if self.many:
-            return [
-                self.handle(i)
-                for i in self.instance
-            ]
+            return [self.handle(i) for i in self.instance]
 
         # instance为列表，判断many，抛出异常
         if isinstance(self.instance, list):

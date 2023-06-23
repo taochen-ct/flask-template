@@ -15,11 +15,13 @@ def create_app():
     app.config.from_object(settings.DevelopmentConfig)
 
     # 错误捕获
+    """
     sentry_sdk.init(
-        dsn="https://422fe15864c34f549f6b1c4500764edb@o4504852704788480.ingest.sentry.io/4504852708327424",
-        integrations=[FlaskIntegration()],
-        traces_sample_rate=1.0
-    )
+            dsn= your_dsn,
+            integrations=[FlaskIntegration()],
+            traces_sample_rate=1.0
+        )
+    """
 
     # 注册蓝图
     app.register_blueprint(test_bp)
@@ -28,6 +30,6 @@ def create_app():
     db.init_app(app)
     cors.init_app(app)
     migrate.init_app(app, db)
-    app.url_map.converters['regex'] = RegexConverter
+    app.url_map.converters["regex"] = RegexConverter
 
     return app
