@@ -4,7 +4,6 @@ from flask_restful import Resource, request
 from models import User
 from extensions import db
 from blueprints.test.serializer import UserSerializer
-from utils.exception import CustomError
 
 
 class UserListApi(Resource):
@@ -19,10 +18,8 @@ class UserListApi(Resource):
         try:
             new_ojb = serializer.save()
             return new_ojb, status.HTTP_200_OK
-        except CustomError as e:
-            return {"msg": "注册失败", "error": str(e)}, status.HTTP_500_INTERNAL_SERVER_ERROR
         except Exception as e:
-            return e, status.HTTP_500_INTERNAL_SERVER_ERROR
+            return {"msg": "注册失败", "error": str(e)}, status.HTTP_500_INTERNAL_SERVER_ERROR
 
 
 class UserApi(Resource):
