@@ -19,7 +19,7 @@ def create_app():
     # 错误捕获
     """
     sentry_sdk.init(
-            dsn="https://422fe15864c34f549f6b1c4500764edb@o4504852704788480.ingest.sentry.io/4504852708327424",
+            dsn="your_dsn",
             integrations=[FlaskIntegration()],
             traces_sample_rate=1.0
         )
