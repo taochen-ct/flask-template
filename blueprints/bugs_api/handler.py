@@ -49,9 +49,9 @@ class BugAPI(Resource):
             "data": {"data": serializer.data} if serializer.data is not None else {"data": {}},
         }, status.HTTP_200_OK
 
-    def put(self, module_uid):
+    def put(self, bug_uid):
         data = json.loads(request.data)
-        bug = db.session.query(Bugs).get(module_uid)
+        bug = db.session.query(Bugs).get(bug_uid)
         serializer = BugsSerializer(instance=Bugs, data=data)
         if bug.uid == serializer.valided_data["uid"]:
             new_obj = serializer.update()
@@ -66,8 +66,8 @@ class BugAPI(Resource):
             "data": {},
         }, status.HTTP_500_INTERNAL_SERVER_ERROR
 
-    def delete(self, module_uid):
-        bug = db.session.query(Bugs).get(module_uid)
+    def delete(self, bug_uid):
+        bug = db.session.query(Bugs).get(bug_uid)
         try:
             db.session.delete(bug)
             db.session.commit()
