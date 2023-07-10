@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="mysql@192.168.1.3" uuid="fd32a1c9-ed5f-4564-8a5e-c5faaa60ca42">
+    <data-source source="LOCAL" name="101.43.40.124" uuid="32a48a9f-2831-4f29-a1d9-8978ca408958">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://192.168.1.3:3306/flask_template</jdbc-url>
+      <jdbc-url>jdbc:mysql://101.43.40.124:13306/flask_template</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

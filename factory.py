@@ -2,6 +2,8 @@ from flask import Flask
 import settings
 from extensions import db, cors, RegexConverter, migrate
 from blueprints.test import test_bp
+from blueprints.bugs_api import bugs_bp
+from blueprints.modules_api import modules_bp
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 
@@ -17,14 +19,19 @@ def create_app():
     # 错误捕获
     """
     sentry_sdk.init(
-            dsn= your_dsn,
+            dsn="https://422fe15864c34f549f6b1c4500764edb@o4504852704788480.ingest.sentry.io/4504852708327424",
             integrations=[FlaskIntegration()],
             traces_sample_rate=1.0
         )
     """
 
     # 注册蓝图
-    app.register_blueprint(test_bp)
+    blue_prints = [test_bp, bugs_bp, modules_bp]
+    for bp in blue_prints:
+        app.register_blueprint(bp)
+    # app.register_blueprint(test_bp)
+    # app.register_blueprint(bugs_bp)
+    # app.register_blueprint(modules_bp)
 
     # 初始化扩展
     db.init_app(app)

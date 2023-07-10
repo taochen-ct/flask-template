@@ -6,7 +6,7 @@ from extensions import db
 from blueprints.test.serializer import UserSerializer
 
 
-class UserListApi(Resource):
+class UserListAPI(Resource):
     def get(self):
         user = db.session.query(User).all()
         serializer = UserSerializer(instance=user, many=True)
@@ -22,7 +22,7 @@ class UserListApi(Resource):
             return {"msg": "注册失败", "error": str(e)}, status.HTTP_500_INTERNAL_SERVER_ERROR
 
 
-class UserApi(Resource):
+class UserAPI(Resource):
     def get(self, test_id):
         user = db.session.query(User).filter_by(id=test_id).first()
         serializer = UserSerializer(instance=user)
