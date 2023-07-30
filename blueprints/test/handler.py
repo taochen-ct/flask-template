@@ -8,7 +8,7 @@ from blueprints.test.serializer import UserSerializer
 
 class UserListAPI(Resource):
     def get(self):
-        user = db.session.query(User).all()
+        user = User.query.all()
         serializer = UserSerializer(instance=user, many=True)
         return {"data": serializer.data}, status.HTTP_200_OK
 
@@ -24,13 +24,13 @@ class UserListAPI(Resource):
 
 class UserAPI(Resource):
     def get(self, test_id):
-        user = db.session.query(User).filter_by(id=test_id).first()
+        user = User.query.filter_by(id=test_id).first()
         serializer = UserSerializer(instance=user)
         return {"data": serializer.data} if serializer.data is not None else {"data": {}}, 200
 
     def put(self, test_id):
         data = json.loads(request.data)
-        user = db.session.query(User).get(test_id)
+        user = User.query.get(test_id)
         serializer = UserSerializer(instance=user, data=data)
         if user.id == serializer.valided_data["id"]:
             new_obj = serializer.update()
@@ -38,7 +38,7 @@ class UserAPI(Resource):
         return {"msg": "修改失败"}, status.HTTP_200_OK
 
     def delete(self, test_id):
-        user = db.session.query(User).get(test_id)
+        user = User.query.get(test_id)
         try:
             db.session.delete(user)
             db.session.commit()

@@ -15,7 +15,7 @@ from .serializer import BugsSerializer
 
 class BugListAPI(Resource):
     def get(self):
-        bug = db.session.query(Bugs).all()
+        bug = Bugs.query.all()
         serializer = BugsSerializer(instance=bug, many=True)
         return {
             "code": 200,
@@ -41,7 +41,7 @@ class BugListAPI(Resource):
 
 class BugAPI(Resource):
     def get(self, bug_uid):
-        bug = db.session.query(Bugs).filter_by(uid=bug_uid).first()
+        bug = Bugs.query.filter_by(uid=bug_uid).first()
         serializer = BugsSerializer(instance=bug)
         return {
             "code": 200,
@@ -51,7 +51,7 @@ class BugAPI(Resource):
 
     def put(self, bug_uid):
         data = json.loads(request.data)
-        bug = db.session.query(Bugs).get(bug_uid)
+        bug = Bugs.query.get(bug_uid)
         serializer = BugsSerializer(instance=Bugs, data=data)
         if bug.uid == serializer.valided_data["uid"]:
             new_obj = serializer.update()
@@ -67,7 +67,7 @@ class BugAPI(Resource):
         }, status.HTTP_500_INTERNAL_SERVER_ERROR
 
     def delete(self, bug_uid):
-        bug = db.session.query(Bugs).get(bug_uid)
+        bug = Bugs.query.get(bug_uid)
         try:
             db.session.delete(bug)
             db.session.commit()

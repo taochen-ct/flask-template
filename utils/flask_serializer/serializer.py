@@ -89,11 +89,9 @@ class Serializer(BaseSerializer):
             self.db.session.rollback()
             raise Exception(str(e))
 
-        new_obj = (
-            self.db.session.query(self.model)
-            .filter_by(**{self.model.__pk__: getattr(obj, self.model.__pk__) if pk is None else pk})
-            .first()
-        )
+        new_obj = self.model.query.filter_by(
+            **{self.model.__pk__: getattr(obj, self.model.__pk__) if pk is None else pk}
+        ).first()
         return self.handle(new_obj)
 
     def update(self):
@@ -106,11 +104,7 @@ class Serializer(BaseSerializer):
             self.db.session.rollback()
             raise Exception(str(e))
         # new_obj = self.db.session.query(self.model).filter_by(id=self.valided_data[self.model.__pk__]).first()
-        new_obj = (
-            self.db.session.query(self.model)
-            .filter_by(**{self.model.__pk__: self.valided_data[self.model.__pk__]})
-            .first()
-        )
+        new_obj = self.model.query.filter_by(**{self.model.__pk__: self.valided_data[self.model.__pk__]}).first()
         return self.handle(new_obj)
 
 

@@ -15,7 +15,7 @@ from .serializer import ModulesSerializer
 
 class ModuleListAPI(Resource):
     def get(self):
-        module = db.session.query(Modules).all()
+        module = Modules.query.all()
         serializer = ModulesSerializer(instance=module, many=True)
         return {
             "code": 200,
@@ -41,7 +41,7 @@ class ModuleListAPI(Resource):
 
 class ModuleAPI(Resource):
     def get(self, module_uid):
-        module = db.session.query(Modules).filter_by(uid=module_uid).first()
+        module = Modules.query.filter_by(uid=module_uid).first()
         serializer = ModulesSerializer(instance=module)
         return {
             "code": 200,
@@ -51,7 +51,7 @@ class ModuleAPI(Resource):
 
     def put(self, module_uid):
         data = json.loads(request.data)
-        module = db.session.query(Modules).get(module_uid)
+        module = Modules.query.get(module_uid)
         serializer = ModulesSerializer(instance=module, data=data)
         if module.uid == serializer.valided_data["uid"]:
             new_obj = serializer.update()
@@ -67,7 +67,7 @@ class ModuleAPI(Resource):
         }, status.HTTP_200_OK
 
     def delete(self, module_uid):
-        module = db.session.query(Modules).get(module_uid)
+        module = Modules.query.get(module_uid)
         try:
             db.session.delete(module)
             db.session.commit()
